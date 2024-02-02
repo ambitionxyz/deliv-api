@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "branches",
+  "info": {
+    "singularName": "branch",
+    "pluralName": "branches",
+    "displayName": "Branch",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name_branch": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "company_profiles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::company-profile.company-profile",
+      "mappedBy": "branches"
+    },
+    "des": {
+      "type": "string"
+    }
+  }
+}

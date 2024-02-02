@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "company_profiles",
+  "info": {
+    "singularName": "company-profile",
+    "pluralName": "company-profiles",
+    "displayName": "Company_Profile",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "details": {
+      "type": "string"
+    },
+    "founding": {
+      "type": "string"
+    },
+    "founder": {
+      "type": "string"
+    },
+    "bank": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string"
+    },
+    "customers": {
+      "type": "json"
+    },
+    "stories": {
+      "type": "json"
+    },
+    "branches": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::branch.branch",
+      "inversedBy": "company_profiles"
+    }
+  }
+}
