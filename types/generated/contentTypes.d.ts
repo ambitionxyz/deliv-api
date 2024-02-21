@@ -779,15 +779,35 @@ export interface ApiBranchBranch extends Schema.CollectionType {
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    name_branch: Attribute.String;
-    location: Attribute.String;
-    company_profiles: Attribute.Relation<
+    name_branch: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    location: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    companies: Attribute.Relation<
       'api::branch.branch',
-      'manyToMany',
+      'manyToOne',
       'api::company-profile.company-profile'
     >;
-    des: Attribute.String;
+    des: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -803,6 +823,12 @@ export interface ApiBranchBranch extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::branch.branch',
+      'oneToMany',
+      'api::branch.branch'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -811,25 +837,68 @@ export interface ApiCompanyProfileCompanyProfile extends Schema.CollectionType {
   info: {
     singularName: 'company-profile';
     pluralName: 'company-profiles';
-    displayName: 'Company_Profile';
+    displayName: 'Company';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    name: Attribute.String;
-    details: Attribute.String;
-    founding: Attribute.String;
-    founder: Attribute.String;
-    bank: Attribute.String;
-    group: Attribute.String;
-    customers: Attribute.JSON;
-    stories: Attribute.JSON;
+    name: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    detail: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    founding: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    founder: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    bank: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    group: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    high_lights: Attribute.Relation<
+      'api::company-profile.company-profile',
+      'oneToMany',
+      'api::high-light.high-light'
+    >;
     branches: Attribute.Relation<
       'api::company-profile.company-profile',
-      'manyToMany',
+      'oneToMany',
       'api::branch.branch'
+    >;
+    customers: Attribute.Relation<
+      'api::company-profile.company-profile',
+      'oneToMany',
+      'api::customer.customer'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -846,39 +915,110 @@ export interface ApiCompanyProfileCompanyProfile extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::company-profile.company-profile',
+      'oneToMany',
+      'api::company-profile.company-profile'
+    >;
+    locale: Attribute.String;
   };
 }
 
-export interface ApiEducationEducation extends Schema.CollectionType {
-  collectionName: 'educations';
+export interface ApiCustomerCustomer extends Schema.CollectionType {
+  collectionName: 'customers';
   info: {
-    singularName: 'education';
-    pluralName: 'educations';
-    displayName: 'Education';
+    singularName: 'customer';
+    pluralName: 'customers';
+    displayName: 'Customer';
   };
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    title: Attribute.String;
-    descriptions: Attribute.JSON;
-    details: Attribute.JSON;
-    image: Attribute.String;
+    Name: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::education.education',
+      'api::customer.customer',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::education.education',
+      'api::customer.customer',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::customer.customer',
+      'oneToMany',
+      'api::customer.customer'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiHighLightHighLight extends Schema.CollectionType {
+  collectionName: 'high_lights';
+  info: {
+    singularName: 'high-light';
+    pluralName: 'high-lights';
+    displayName: 'HighLight';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    year: Attribute.Integer &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    content: Attribute.Blocks &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::high-light.high-light',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::high-light.high-light',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::high-light.high-light',
+      'oneToMany',
+      'api::high-light.high-light'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -887,18 +1027,48 @@ export interface ApiIrIr extends Schema.CollectionType {
   info: {
     singularName: 'ir';
     pluralName: 'irs';
-    displayName: 'IR';
+    displayName: 'Information';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    time: Attribute.String;
-    title: Attribute.String;
-    id_IR: Attribute.String;
-    tag: Attribute.JSON;
-    size: Attribute.Integer;
+    time: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    title: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    id_IR: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    size: Attribute.Integer &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Tags: Attribute.Component<'tag-name.tag', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -906,6 +1076,8 @@ export interface ApiIrIr extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::ir.ir', 'oneToOne', 'admin::user'> &
       Attribute.Private;
+    localizations: Attribute.Relation<'api::ir.ir', 'oneToMany', 'api::ir.ir'>;
+    locale: Attribute.String;
   };
 }
 
@@ -914,17 +1086,42 @@ export interface ApiNewNew extends Schema.CollectionType {
   info: {
     singularName: 'new';
     pluralName: 'news';
-    displayName: 'new';
+    displayName: 'News';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    time: Attribute.String;
-    title: Attribute.String;
-    id_new: Attribute.String;
-    tag: Attribute.JSON;
+    time: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    title: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    id_new: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Tags: Attribute.Component<'tag-name.tag', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -932,6 +1129,12 @@ export interface ApiNewNew extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::new.new', 'oneToOne', 'admin::user'> &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::new.new',
+      'oneToMany',
+      'api::new.new'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -940,17 +1143,42 @@ export interface ApiPersonPerson extends Schema.CollectionType {
   info: {
     singularName: 'person';
     pluralName: 'people';
-    displayName: 'Person';
+    displayName: 'Staff';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    position: Attribute.JSON;
-    name: Attribute.String;
-    background: Attribute.String;
-    image: Attribute.String;
+    name: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    background: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    image: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    position: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -966,6 +1194,12 @@ export interface ApiPersonPerson extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::person.person',
+      'oneToMany',
+      'api::person.person'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -974,17 +1208,42 @@ export interface ApiProjectProject extends Schema.CollectionType {
   info: {
     singularName: 'project';
     pluralName: 'projects';
-    displayName: 'project';
+    displayName: 'Project';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    title: Attribute.String;
-    image: Attribute.String;
-    descriptions: Attribute.JSON;
-    themes: Attribute.JSON;
+    title: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    image: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Themes: Attribute.Component<'tag-name.tag', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Descriptions: Attribute.Component<'tag-name.tag', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1000,76 +1259,12 @@ export interface ApiProjectProject extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
-  };
-}
-
-export interface ApiStrengthStrength extends Schema.CollectionType {
-  collectionName: 'strengths';
-  info: {
-    singularName: 'strength';
-    pluralName: 'strengths';
-    displayName: 'Strength';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    notices: Attribute.JSON;
-    image: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::strength.strength',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::strength.strength',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiThemeTheme extends Schema.CollectionType {
-  collectionName: 'themes';
-  info: {
-    singularName: 'theme';
-    pluralName: 'themes';
-    displayName: 'Theme';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.JSON;
-    title: Attribute.String;
-    details: Attribute.JSON;
-    image: Attribute.String;
-    projects: Attribute.Relation<
-      'api::theme.theme',
+    localizations: Attribute.Relation<
+      'api::project.project',
       'oneToMany',
       'api::project.project'
     >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::theme.theme',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::theme.theme',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
+    locale: Attribute.String;
   };
 }
 
@@ -1093,13 +1288,12 @@ declare module '@strapi/types' {
       'plugin::i18n.locale': PluginI18NLocale;
       'api::branch.branch': ApiBranchBranch;
       'api::company-profile.company-profile': ApiCompanyProfileCompanyProfile;
-      'api::education.education': ApiEducationEducation;
+      'api::customer.customer': ApiCustomerCustomer;
+      'api::high-light.high-light': ApiHighLightHighLight;
       'api::ir.ir': ApiIrIr;
       'api::new.new': ApiNewNew;
       'api::person.person': ApiPersonPerson;
       'api::project.project': ApiProjectProject;
-      'api::strength.strength': ApiStrengthStrength;
-      'api::theme.theme': ApiThemeTheme;
     }
   }
 }

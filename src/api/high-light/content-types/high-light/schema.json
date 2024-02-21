@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "high_lights",
+  "info": {
+    "singularName": "high-light",
+    "pluralName": "high-lights",
+    "displayName": "HighLight"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "year": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "integer"
+    },
+    "content": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "blocks"
+    }
+  }
+}

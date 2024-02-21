@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_tag_name_tags",
+  "info": {
+    "displayName": "Tag",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    }
+  }
+}

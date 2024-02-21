@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * theme controller
+ * customer controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::theme.theme');
+module.exports = createCoreController('api::customer.customer');
